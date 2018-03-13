@@ -153,7 +153,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function() {
   log(scriptStep++, 'Clicking on Delete to delete the workbook');
-  return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']//div[.=\'DeleteDelete…\']"), DefaultTimeout); })
+  return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']//div[.=\'Delete…\']"), DefaultTimeout); })
 .then(function (el) { 
   el.click();
 })
