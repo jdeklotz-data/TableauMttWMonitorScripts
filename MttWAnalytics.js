@@ -83,7 +83,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function () {
   log(scriptStep++, "Finding the File menu and clicking it")
-  var fileMenuCssSelector = "body > div.tabAuthMastheadArea > div > div > div.tabAuthMenuBarMenus > div.tabAuthMenuBarCommandMenus > div:nth-child(1) > div"
+  var fileMenuCssSelector = "body > div.tabAuthMenubarArea > div > div > div.tabAuthMenuBarMenus > div.tabAuthMenuBarCommandMenus > div:nth-child(1) > div";
   $browser.wait(until.elementLocated(By.css(fileMenuCssSelector)), DefaultTimeout, 'Could not find file Menu').then(function (fileMenu) {
     $browser.findElement(By.css(fileMenuCssSelector)).then(function (el) {
       el.click();
