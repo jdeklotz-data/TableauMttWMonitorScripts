@@ -132,7 +132,10 @@ $browser.get(sso_url).then(function () {
 })
 
 .then(function() {
-  log(scriptStep++, "Searching for the workbook")
+  log(scriptStep++, "Searching for the workbook");
+  return $browser.waitForAndFindElement(By.css("span.ng-isolate-scope > div > div > div > div > div.tb-search-box-icon-button > div > span"), DefaultTimeout); })
+.then(function(el) {
+  el.click();
   return $browser.waitForAndFindElement(By.name("omniboxTextBox"), DefaultTimeout); })
 .then(function (el) {
   el.clear();
