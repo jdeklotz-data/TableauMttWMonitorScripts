@@ -77,22 +77,38 @@ $browser.get(sso_url).then(function () {
     })
 })
 .then(function () {
-    $browser.findElement(By.id("loadingGlassPane")).then(function (el) {
-        $browser.wait(until.elementIsNotVisible(el), DefaultTimeout, 'Glasspane still visible');
-    });
+    return $browser.findElement(By.id("loadingGlassPane"))
+        .then(function (el) {
+            $browser.wait(until.elementIsNotVisible(el), DefaultTimeout, "Glasspane still visible");
+        });
+})
+.then(function () {
+    log(scriptStep++, "Wait for the 'Connect to Data' dialog");
+    $browser.wait(until.elementLocated(By.xpath("//div[@tb-test-id=\'getting-started-notifications-modal\']")), DefaultTimeout, "Could not find 'Connect to Data' dialog");
+})
+.then(function () {
+    log(scriptStep++, "Close the 'Connect to Data' dialog");
+    return $browser.waitForAndFindElement(
+        By.css("div.tabConnectionDialog div.tab-custom-button > div.tabConnectionDialogHeaderClose"),
+        DefaultTimeout,
+        "Could not find close button")
+            .then(function (closeButton) {
+                closeButton.click();
+            });
 })
 .then(function () {
     log(scriptStep++, "Finding the File menu and clicking it");
-    var fileMenuCssSelector = "body > div.tabAuthMenubarArea > div > div > div.tabAuthMenuBarMenus > div.tabAuthMenuBarCommandMenus > div:nth-child(1) > div";
-    $browser.wait(until.elementLocated(By.css(fileMenuCssSelector)), DefaultTimeout, 'Could not find file Menu').then(function (fileMenu) {
-        $browser.findElement(By.css(fileMenuCssSelector)).then(function (el) {
-            el.click();
-        });
-    });
+    return $browser.waitForAndFindElement(
+        By.css("body > div.tabAuthMenubarArea > div > div > div.tabAuthMenuBarMenus > div.tabAuthMenuBarCommandMenus > div:nth-child(1) > div"),
+        DefaultTimeout,
+        "Could not find file menu")
+            .then(function (fileMenu) {
+                fileMenu.click();
+            });
 })
 .then(function () {
     log(scriptStep++, "Finding and clicking Save As");
-    $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, 'Could not find Menu');
+    $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, "Could not find Menu");
     var menuContent = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent"));
         menuContent.findElements(By.className("tabMenuItem")).then(function (menuItems) {
         menuItems[1].click();
