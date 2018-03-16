@@ -5,7 +5,6 @@ $browser.get(sso_url).then(function () {
 .then(function (element) { 
     element.sendKeys(username); 
 })
-
 .then(function () {
   //Find the password field by specifying its id, then enter the password
   return $browser.waitForAndFindElement(By.id("password"), DefaultTimeout);
@@ -21,7 +20,6 @@ $browser.get(sso_url).then(function () {
     logWithInsight(scriptStep++, "Signing in with " + username, "SignIn-" + pod);
     el.click(); 
 })
-
 .then(function () {
   return $browser.wait(until.elementLocated(By.className("tb-subplace-tabs")), DefaultTimeout, "Could not locate tabs");
 })
@@ -39,20 +37,9 @@ $browser.get(sso_url).then(function () {
 }, function() {
   // Ignore the error since this is because the trust dialog was not up  
 })
-.then (function() {
-  log(scriptStep++, "Navigating to Datasources");
-  return $browser.get(datasources_url);
-})
-.then(function () {
-  var dsnamexpath = "//span/a[@title=\'"+DATASOURCE_NAME+"\']";
-  return $browser.waitForAndFindElement(By.xpath(dsnamexpath), DefaultTimeout); 
-})
-.then(function(el) {
-  el.click();
-})
-.then(function () {
-  log(scriptStep++, "Click create a New workbook");
-  return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']/span[1]/span/a"), DefaultTimeout);
+.then(function() {
+  log(scriptStep++, "Click '+ New Workbook' button");
+  return $browser.waitForAndFindElement(By.xpath("//div[@tb-test-id=\'action-create-workbook-from-scratch\']"), DefaultTimeout);
 })
 .then(function (el) {
   logWithInsight(scriptStep++, "Creating new workbook", "NewWorkbook-" + pod)
@@ -90,7 +77,6 @@ $browser.get(sso_url).then(function () {
     })
   })
 })
-
 .then(function () {
   log(scriptStep++, "Finding and clicking Save As");
   $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, 'Could not find Menu');
