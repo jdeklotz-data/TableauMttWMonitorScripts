@@ -21,7 +21,7 @@ $browser.get(sso_url).then(function () {
     el.click(); 
 })
 .then(function () {
-  return $browser.waitForAndFindElement(By.xpath("//a[@tb-test-id=\'getting-started-notifications-modal\']"), DefaultTimeout)
+  return $browser.waitForAndFindElement(By.xpath("//div[@tb-test-id=\'getting-started-notifications-modal\']"), DefaultTimeout)
 })
 .then(function () {
     log(scriptStep++, "closing 'getting started' dialog");
