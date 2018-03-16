@@ -24,9 +24,21 @@ $browser.get(sso_url).then(function () {
   return $browser.wait(until.elementLocated(By.className("tb-subplace-tabs")), DefaultTimeout, "Could not locate tabs");
 })
 .then(function () {
-  $browser.getCurrentUrl().then(function (url) {
-    assert.equal(url, workbooks_url, "After login urls don't match");
-  });
+    return $browser.getCurrentUrl().then(function (url) {
+        if (url != workbooks_url)
+        {
+            return $browser.waitForAndFindElement(By.xpath("//a[@tb-test-id=\'subplace-tab-button-workbooks\']"), DefaultTimeout)
+                .then(function (el) {
+                    el.click();
+                });
+        }
+    });
+})
+.then(function () {
+    return $browser.wait(until.elementLocated(By.className("tb-subplace-tabs")), DefaultTimeout, "Could not locate tabs");
+})
+.then(function () {
+    
 })
 .then(function () {
   log(scriptStep++, 'closing trust dialog');
