@@ -91,7 +91,7 @@ $browser.get(sso_url).then(function () {
 .then(function () {
     log(scriptStep++, "Wait for the 'Connect to Data' dialog");
     $browser.wait(
-        until.elementLocated(By.xpath("//div[@tb-test-id=\'tabConnectionDialog-Dialog-Body\']")),
+        until.elementLocated(By.xpath("//div[@data-tb-test-id=\'tabConnectionDialog-Dialog-Body\']")),
         DefaultTimeout,
         "Could not find 'Connect to Data' dialog");
 })
