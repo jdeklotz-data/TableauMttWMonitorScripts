@@ -21,16 +21,16 @@ $browser.get(sso_url).then(function () {
     el.click(); 
 })
 .then(function () {
-  return $browser.wait(until.elementLocated(By.className("tb-subplace-tabs")), DefaultTimeout, "Could not locate tabs");
+  return $browser.waitForAndFindElement(By.xpath("//a[@tb-test-id=\'getting-started-notifications-modal\']"), DefaultTimeout)
 })
 .then(function () {
-    log(scriptStep++, 'closing trust dialog');
-    return $browser.findElement(By.css("button.tb-outline-button.tb-cancel-button"), DefaultTimeout);
+    log(scriptStep++, "closing 'getting started' dialog");
+    return $browser.findElement(By.css("div.tb-modal-external-content.tb-modal > span.tb-modal-close"), DefaultTimeout);
 })
 .then(function(el) {
   el.click();
 }, function() {
-  // Ignore the error since this is because the trust dialog was not up  
+  // Ignore the error since this is because the 'getting started' dialog was not up  
 })
 .then(function () {
     return $browser.getCurrentUrl().then(function (url) {
