@@ -53,7 +53,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function() {
   log(scriptStep++, "Click '+ New Workbook' button");
-  return $browser.waitForAndFindElement(By.xpath("//div[@tb-test-id=\'action-create-workbook-from-scratch\']"), DefaultTimeout);
+  return $browser.waitForAndFindElement(By.xpath("//span[@tb-test-id=\'action-create-workbook-from-scratch\']"), DefaultTimeout);
 })
 .then(function (el) {
   logWithInsight(scriptStep++, "Creating new workbook", "NewWorkbook-" + pod)
