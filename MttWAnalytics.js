@@ -24,6 +24,15 @@ $browser.get(sso_url).then(function () {
   return $browser.wait(until.elementLocated(By.className("tb-subplace-tabs")), DefaultTimeout, "Could not locate tabs");
 })
 .then(function () {
+    log(scriptStep++, 'closing trust dialog');
+    return $browser.findElement(By.css("button.tb-outline-button.tb-cancel-button"), DefaultTimeout);
+})
+.then(function(el) {
+  el.click();
+}, function() {
+  // Ignore the error since this is because the trust dialog was not up  
+})
+.then(function () {
     return $browser.getCurrentUrl().then(function (url) {
         if (url != workbooks_url)
         {
@@ -38,16 +47,9 @@ $browser.get(sso_url).then(function () {
     return $browser.wait(until.elementLocated(By.className("tb-subplace-tabs")), DefaultTimeout, "Could not locate tabs");
 })
 .then(function () {
-    
-})
-.then(function () {
-  log(scriptStep++, 'closing trust dialog');
-  return $browser.findElement(By.css("button.tb-outline-button.tb-cancel-button"), DefaultTimeout);
-})
-.then(function(el) {
-  el.click();
-}, function() {
-  // Ignore the error since this is because the trust dialog was not up  
+    $browser.getCurrentUrl().then(function (url) {
+        assert.equal(url, workbooks_url, "After login and navigation, urls don't match");
+    });
 })
 .then(function() {
   log(scriptStep++, "Click '+ New Workbook' button");
