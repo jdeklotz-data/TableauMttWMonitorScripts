@@ -72,19 +72,28 @@ $browser.get(sso_url).then(function () {
         }
         
         $browser.switchTo().window(windowHandlers[1]).then(function () {
-            $browser.wait(until.elementLocated(By.className("tabAuthMenuBarWorkbook")), DefaultTimeout, "Could not locate edit workbook tab");
+            $browser.wait(
+                until.elementLocated(By.className("tabAuthMenuBarWorkbook")),
+                DefaultTimeout,
+                "Could not locate edit workbook tab");
         });
     })
 })
 .then(function () {
     return $browser.findElement(By.id("loadingGlassPane"))
         .then(function (el) {
-            $browser.wait(until.elementIsNotVisible(el), DefaultTimeout, "Glasspane still visible");
+            $browser.wait(
+                until.elementIsNotVisible(el),
+                DefaultTimeout,
+                "Glasspane still visible");
         });
 })
 .then(function () {
     log(scriptStep++, "Wait for the 'Connect to Data' dialog");
-    $browser.wait(until.elementLocated(By.xpath("//div[@tb-test-id=\'getting-started-notifications-modal\']")), DefaultTimeout, "Could not find 'Connect to Data' dialog");
+    $browser.wait(
+        until.elementLocated(By.xpath("//div[@tb-test-id=\'tabConnectionDialog-Dialog-Body\']")),
+        DefaultTimeout,
+        "Could not find 'Connect to Data' dialog");
 })
 .then(function () {
     log(scriptStep++, "Close the 'Connect to Data' dialog");
