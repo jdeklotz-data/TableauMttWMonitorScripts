@@ -1,3 +1,12 @@
+var sendKeysX = function (e, str) {
+    for (var i = 0; i < str.length; ++i)
+    {
+        $browser.sleep(100);
+        e.sendKeys(str[i]);
+    }
+    $browser.sleep(100);
+};
+
 $browser.get(sso_url).then(function () {
     log(scriptStep++, "Navigating to signin page");
     return $browser.waitForAndFindElement(By.id("email"), DefaultTimeout);
@@ -127,7 +136,7 @@ $browser.get(sso_url).then(function () {
     logWithInsight(scriptStep++, "Providing the name of the workbook to save", "");
     $browser.wait(until.elementLocated(By.className("tab-dialogTitle")), DefaultTimeout, 'Could not find Save As dialog').then(function () {
         var workbookNameInputBoxCssSelector = "body > div.tab-dialog.tab-widget.tabDropTarget.tab-selectable.active > div.tab-dialogBodyContainer > div > table > tr:nth-child(2) > td > div > input";
-        $browser.findElement(By.css(workbookNameInputBoxCssSelector)).sendKeys(NEW_WORKBOOK_NAME);
+        sendKeysX($browser.findElement(By.css(workbookNameInputBoxCssSelector)), NEW_WORKBOOK_NAME);
     });
 })
 .then(function () {
@@ -183,7 +192,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function (el) {
     el.clear();
-    el.sendKeys(NEW_WORKBOOK_NAME);
+    sendKeysX(el, NEW_WORKBOOK_NAME);
 })
 .then(function() {
     log(scriptStep++, "Selecting from the search drop down");
@@ -223,7 +232,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function (el) {
     el.clear();
-    el.sendKeys(NEW_WORKBOOK_NAME);
+    sendKeysX(el, NEW_WORKBOOK_NAME);
 })
 .then(function() {
     log(scriptStep++, "Selecting from the search drop down");
