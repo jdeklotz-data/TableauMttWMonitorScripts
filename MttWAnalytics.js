@@ -170,8 +170,11 @@ $browser.get(sso_url).then(function () {
 .then(function () {
     log(scriptStep++, "Finding 'Close'");
     $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, "Could not find Menu");
-    var spanClose = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent > tabMenuItem > tabMenuItemNameArea > span:contains('Close')"));
-    //var menuItemClose = spanClose.findElement(By.xpath("ancestor::div[@class=\'tabMenuItem\']"));
+    var menuItems = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent > tabMenuItem"));
+    log(scriptStep++, "X-1");
+    var spanClose = menuItems.findElement(By.xpath("span[contains(text(), 'Close')]"));
+    log(scriptStep++, "X-2");
+    var menuItemClose = spanClose.findElement(By.xpath("ancestor::div[@class=\'tabMenuItem\']"));
     log(scriptStep++, "Clicking 'Close'");
     spanClose.click();
 })
