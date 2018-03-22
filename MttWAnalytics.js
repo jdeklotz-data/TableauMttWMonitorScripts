@@ -174,7 +174,7 @@ $browser.get(sso_url).then(function () {
     log(scriptStep++, "X-1");
     var spanClose = menuItems.findElement(By.xpath("//span[contains(text(), 'Close')]"));
     log(scriptStep++, "X-2");
-    var menuItemClose = spanClose.findElement(By.xpath("ancestor::div[@class=\'tabMenuItem\']"));
+    var menuItemClose = spanClose.findElement(By.xpath("./ancestor::div[@class=\'tabMenuItem\']"));
     log(scriptStep++, "Clicking 'Close'");
     spanClose.click();
 })
