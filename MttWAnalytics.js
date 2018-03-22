@@ -166,35 +166,35 @@ $browser.get(sso_url).then(function () {
     el.sendKeys(NEW_WORKBOOK_NAME);
 })
 .then(function() {
-    log(scriptStep++, 'Selecting from the search drop down');
+    log(scriptStep++, "Selecting from the search drop down");
     return $browser.waitForAndFindElement(By.xpath("//div[@id=\'ng-app\']/div[2]/div/div/div[2]/a[2]/span/div"), DefaultTimeout); 
 })
 .then(function (el) { 
     el.click(); 
 })
 .then(function() {
-    log(scriptStep++, 'Clicking on more actions to get to Delete menu');
+    log(scriptStep++, "Clicking on more actions to get to Delete menu");
     return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']/span[2]/span/span"), DefaultTimeout);
 })
 .then(function (el) {
     el.click();
 })
 .then(function() {
-    log(scriptStep++, 'Clicking on Delete to delete the workbook');
+    log(scriptStep++, "Clicking on 'Delete…' to delete the workbook");
     return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']//div[.=\'Delete…\']"), DefaultTimeout);
 })
 .then(function (el) { 
     el.click();
 })
 .then(function() {
-    log(scriptStep++, 'Click confirm delete button');
+    log(scriptStep++, "Click confirm delete button");
     return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-dialog-actions\']/button[2]"), DefaultTimeout);
 })
 .then(function (el) { 
     el.click(); 
 })
 .then(function() {
-    log(scriptStep++, 'Clearing toast');
+    log(scriptStep++, "Clearing toast");
     return $browser.waitForAndFindElement(By.css("span.tb-clear-button.tb-disable-selection"), DefaultTimeout);
 })
 .then(function (el) { 
