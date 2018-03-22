@@ -159,11 +159,12 @@ $browser.get(sso_url).then(function () {
             });
 })
 .then(function () {
-    log(scriptStep++, "Finding and clicking 'Close'");
+    log(scriptStep++, "Finding 'Close'");
     $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, "Could not find Menu");
     var spanClose = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent > tabMenuItem > tabMenuItemNameArea > span:contains('Close')"));
     //var menuItemClose = spanClose.findElement(By.xpath("ancestor::div[@class=\'tabMenuItem\']"));
-    menuItemClose.click();
+    log(scriptStep++, "Clicking 'Close'");
+    spanClose.click();
 })
 
 .then(function () {
