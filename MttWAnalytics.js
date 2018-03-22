@@ -116,10 +116,10 @@ $browser.get(sso_url).then(function () {
             });
 })
 .then(function () {
-    log(scriptStep++, "Finding and clicking Save As");
+    log(scriptStep++, "Finding and clicking 'Save As'");
     $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, "Could not find Menu");
     var menuContent = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent"));
-        menuContent.findElements(By.className("tabMenuItem")).then(function (menuItems) {
+    menuContent.findElements(By.className("tabMenuItem")).then(function (menuItems) {
         menuItems[1].click();
     });
 })
@@ -147,6 +147,65 @@ $browser.get(sso_url).then(function () {
         });
     });
 })
+
+.then(function () {
+    log(scriptStep++, "Finding the File menu and clicking it");
+    return $browser.waitForAndFindElement(
+        By.css("body > div.tabAuthMenubarArea > div > div > div.tabAuthMenuBarMenus > div.tabAuthMenuBarCommandMenus > div:nth-child(1) > div"),
+        DefaultTimeout,
+        "Could not find file menu")
+            .then(function (fileMenu) {
+                fileMenu.click();
+            });
+})
+.then(function () {
+    log(scriptStep++, "Finding and clicking 'Close'");
+    $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, "Could not find Menu");
+    var spanClose = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent > tabMenuItem > tabMenuItemNameArea > span:contains('Close')"));
+    var menuItemClose = spanClose.findElement(By.xpath("ancestor::div[@class=\'tabMenuItem\']"));
+    menuItemClose.click();
+})
+
+.then(function () {
+    log(scriptStep++, "Navigating to the default project workbooks page");
+    $browser.get(defaultproject_url).then(function () {
+        return $browser.wait(until.elementLocated(By.linkText("Analyze Superstore")), DefaultTimeout, "Could not locate Analyze Superstore on default projects page");
+    });
+})
+.then(function() {
+    log(scriptStep++, "Searching for the workbook");
+    return $browser.waitForAndFindElement(By.css("span.ng-isolate-scope > div > div > div > div > div.tb-search-box-icon-button > div > span"), DefaultTimeout);
+})
+.then(function(el) {
+    el.click();
+    return $browser.waitForAndFindElement(By.name("omniboxTextBox"), DefaultTimeout);
+})
+.then(function (el) {
+    el.clear();
+    el.sendKeys(NEW_WORKBOOK_NAME);
+})
+.then(function() {
+    log(scriptStep++, "Selecting from the search drop down");
+    return $browser.waitForAndFindElement(By.xpath("//div[@id=\'ng-app\']/div[2]/div/div/div[2]/a[2]/span/div"), DefaultTimeout); 
+})
+.then(function (el) { 
+    el.click(); 
+})
+.then(function() {
+    log(scriptStep++, "Clicking on more actions to get to Delete menu");
+    return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']/span[2]/span/span"), DefaultTimeout);
+})
+.then(function (el) {
+    el.click();
+})
+.then(function() {
+    log(scriptStep++, "Clicking on 'Edit Workbook' to edit the workbook");
+    return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']//div[.=\'Edit Workbook\']"), DefaultTimeout);
+})
+.then(function (el) { 
+    el.click();
+})
+
 .then(function () {
     log(scriptStep++, "Navigating to the default project workbooks page");
     $browser.get(defaultproject_url).then(function () {
