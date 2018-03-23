@@ -7,6 +7,38 @@ var sendKeysX = function (e, str) {
     $browser.sleep(100);
 };
 
+var switchToWebAuthoringTab = function() {
+    $browser.getAllWindowHandles().then(function (windowHandlers) {
+        if (windowHandlers.length == 1) {
+            var waitStart = Date.now();
+            var waitElapsed = Date.now() - waitStart;
+            while(windowHandlers.length == 1 && waitElapsed < DefaultTimeout) {
+                $browser.getAllWindowHandles().then(function (wins) {
+                    windowHandlers = wins;
+                });
+                waitElapsed = Date.now() - waitStart;
+            }
+        }
+        
+        $browser.switchTo().window(windowHandlers[1]).then(function () {
+            $browser.wait(
+                until.elementLocated(By.className("tabAuthMenuBarWorkbook")),
+                DefaultTimeout,
+                "Could not locate edit workbook tab");
+        });
+    });
+};
+
+var waitForLoadingGlassPaneToGoAway = function () {
+    return $browser.findElement(By.id("loadingGlassPane"))
+        .then(function (el) {
+            $browser.wait(
+                until.elementIsNotVisible(el),
+                DefaultTimeout,
+                "Glasspane still visible");
+        });
+};
+
 $browser.get(sso_url).then(function () {
     log(scriptStep++, "Navigating to signin page");
     return $browser.waitForAndFindElement(By.id("email"), DefaultTimeout);
@@ -67,36 +99,8 @@ $browser.get(sso_url).then(function () {
     el.click();
     $browser.sleep(2000);
 })
-.then(function() {
-    $browser.getAllWindowHandles().then(function (windowHandlers) {
-        if (windowHandlers.length == 1) {
-            var waitStart = Date.now();
-            var waitElapsed = Date.now() - waitStart;
-            while(windowHandlers.length == 1 && waitElapsed < DefaultTimeout) {
-                $browser.getAllWindowHandles().then(function (wins) {
-                    windowHandlers = wins;
-                });
-                waitElapsed = Date.now() - waitStart;
-            }
-        }
-        
-        $browser.switchTo().window(windowHandlers[1]).then(function () {
-            $browser.wait(
-                until.elementLocated(By.className("tabAuthMenuBarWorkbook")),
-                DefaultTimeout,
-                "Could not locate edit workbook tab");
-        });
-    });
-})
-.then(function () {
-    return $browser.findElement(By.id("loadingGlassPane"))
-        .then(function (el) {
-            $browser.wait(
-                until.elementIsNotVisible(el),
-                DefaultTimeout,
-                "Glasspane still visible");
-        });
-})
+.then(switchToWebAuthoringTab)
+.then(waitForLoadingGlassPaneToGoAway)
 .then(function () {
     log(scriptStep++, "Wait for the 'Connect to Data' dialog");
     $browser.wait(
@@ -221,6 +225,7 @@ $browser.get(sso_url).then(function () {
             $browser.switchTo().frame(iframeElement);
         });
 })
+.then(waitForLoadingGlassPaneToGoAway)
 .then(function() {
     log(scriptStep++, "Clicking on 'Edit' to edit the workbook");
     return $browser.waitForAndFindElement(By.css(".tabToolbarButton.edit"), DefaultTimeout);
@@ -228,36 +233,8 @@ $browser.get(sso_url).then(function () {
 .then(function (el) { 
     el.click();
 })
-.then(function() {
-    $browser.getAllWindowHandles().then(function (windowHandlers) {
-        if (windowHandlers.length == 1) {
-            var waitStart = Date.now();
-            var waitElapsed = Date.now() - waitStart;
-            while(windowHandlers.length == 1 && waitElapsed < DefaultTimeout) {
-                $browser.getAllWindowHandles().then(function (wins) {
-                    windowHandlers = wins;
-                });
-                waitElapsed = Date.now() - waitStart;
-            }
-        }
-        
-        $browser.switchTo().window(windowHandlers[1]).then(function () {
-            $browser.wait(
-                until.elementLocated(By.className("tabAuthMenuBarWorkbook")),
-                DefaultTimeout,
-                "Could not locate edit workbook tab");
-        });
-    });
-})
-.then(function () {
-    return $browser.findElement(By.id("loadingGlassPane"))
-        .then(function (el) {
-            $browser.wait(
-                until.elementIsNotVisible(el),
-                DefaultTimeout,
-                "Glasspane still visible");
-        });
-})
+.then(switchToWebAuthoringTab)
+.then(waitForLoadingGlassPaneToGoAway)
 .then(function () {
     log(scriptStep++, "Verifying authoring the workbook");
     return $browser.findElement(By.className("tabAuthMenuBarWorkbook"))
