@@ -238,7 +238,6 @@ $browser.get(sso_url).then(function () {
 .then(function (el) { 
     el.click();
 })
-.then(function () { switchToWebAuthoringTab(); })
 .then(function () { waitForLoadingGlassPaneToGoAway(); })
 .then(function () {
     log(scriptStep++, "Verifying authoring the workbook");
@@ -266,12 +265,6 @@ $browser.get(sso_url).then(function () {
     var closeMenuItem = menuItems.findElement(By.xpath("//span[contains(text(), 'Close')]/../.."));
     log(scriptStep++, "Clicking 'Close'");
     closeMenuItem.click();
-})
-.then(function() {
-    log(scriptStep++, "Switching tabs back to VizPortal");
-    $browser.getAllWindowHandles().then(function (windowHandlers) {
-        $browser.switchTo().window(windowHandlers[0]);
-    });
 })
 .then(function () {
     log(scriptStep++, "Navigating to the default project workbooks page");
