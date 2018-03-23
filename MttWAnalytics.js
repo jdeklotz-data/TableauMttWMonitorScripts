@@ -86,7 +86,7 @@ $browser.get(sso_url).then(function () {
                 DefaultTimeout,
                 "Could not locate edit workbook tab");
         });
-    })
+    });
 })
 .then(function () {
     return $browser.findElement(By.id("loadingGlassPane"))
@@ -156,7 +156,6 @@ $browser.get(sso_url).then(function () {
         });
     });
 })
-
 .then(function () {
     log(scriptStep++, "Finding the File menu and clicking it");
     return $browser.waitForAndFindElement(
@@ -175,7 +174,12 @@ $browser.get(sso_url).then(function () {
     log(scriptStep++, "Clicking 'Close'");
     closeMenuItem.click();
 })
-
+.then(function() {
+    log(scriptStep++, "Switching tabs back to VizPortal");
+    $browser.getAllWindowHandles().then(function (windowHandlers) {
+        $browser.switchTo().window(windowHandlers[0]);
+    });
+})
 .then(function () {
     log(scriptStep++, "Navigating to the default project workbooks page");
     $browser.get(defaultproject_url).then(function () {
@@ -215,7 +219,69 @@ $browser.get(sso_url).then(function () {
 .then(function (el) { 
     el.click();
 })
-
+.then(function() {
+    $browser.getAllWindowHandles().then(function (windowHandlers) {
+        if (windowHandlers.length == 1) {
+            var waitStart = Date.now();
+            var waitElapsed = Date.now() - waitStart;
+            while(windowHandlers.length == 1 && waitElapsed < DefaultTimeout) {
+                $browser.getAllWindowHandles().then(function (wins) {
+                    windowHandlers = wins;
+                });
+                waitElapsed = Date.now() - waitStart;
+            }
+        }
+        
+        $browser.switchTo().window(windowHandlers[1]).then(function () {
+            $browser.wait(
+                until.elementLocated(By.className("tabAuthMenuBarWorkbook")),
+                DefaultTimeout,
+                "Could not locate edit workbook tab");
+        });
+    });
+})
+.then(function () {
+    return $browser.findElement(By.id("loadingGlassPane"))
+        .then(function (el) {
+            $browser.wait(
+                until.elementIsNotVisible(el),
+                DefaultTimeout,
+                "Glasspane still visible");
+        });
+})
+.then(function () {
+    log(scriptStep++, "Verifying authoring the workbook");
+    return $browser.findElement(By.className("tabAuthMenuBarWorkbook"))
+        .then(function (el) {
+            el.getText().then(function (wbname) {
+                assert.equal(wbname, NEW_WORKBOOK_NAME);
+            });
+        });
+})
+.then(function () {
+    log(scriptStep++, "Finding the File menu and clicking it");
+    return $browser.waitForAndFindElement(
+        By.css("body > div.tabAuthMenubarArea > div > div > div.tabAuthMenuBarMenus > div.tabAuthMenuBarCommandMenus > div:nth-child(1) > div"),
+        DefaultTimeout,
+        "Could not find file menu")
+            .then(function (fileMenu) {
+                fileMenu.click();
+            });
+})
+.then(function () {
+    log(scriptStep++, "Finding 'Close'");
+    $browser.wait(until.elementLocated(By.className("tabMenuContent")), DefaultTimeout, "Could not find Menu");
+    var menuItems = $browser.findElement(By.css("body > div.tabMenu.tab-widget.tabMenuUnificationTheme.light.tabMenuNoIcons.tabMenuNoDesc > div.tabMenuContent > .tabMenuItem"));
+    var closeMenuItem = menuItems.findElement(By.xpath("//span[contains(text(), 'Close')]/../.."));
+    log(scriptStep++, "Clicking 'Close'");
+    closeMenuItem.click();
+})
+.then(function() {
+    log(scriptStep++, "Switching tabs back to VizPortal");
+    $browser.getAllWindowHandles().then(function (windowHandlers) {
+        $browser.switchTo().window(windowHandlers[0]);
+    });
+})
 .then(function () {
     log(scriptStep++, "Navigating to the default project workbooks page");
     $browser.get(defaultproject_url).then(function () {
