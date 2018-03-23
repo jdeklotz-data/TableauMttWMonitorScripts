@@ -207,7 +207,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function() {
     log(scriptStep++, "Clicking on actions menu on the sheet row to get to 'Edit View'");
-    return $browser.waitForAndFindElement(By.xpath("//div[@data-tb-test-id=\'name-col-cell\']//span[@data-tb-test-id=\'action-menu\']"), DefaultTimeout);
+    return $browser.waitForAndFindElement(By.xpath("//div[@data-tb-test-id=\'name-col-cell\']//span[@data-tb-test-id=\'action-menu-button\']"), DefaultTimeout);
 })
 .then(function (el) {
     el.click();
