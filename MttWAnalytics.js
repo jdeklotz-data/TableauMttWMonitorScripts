@@ -99,8 +99,8 @@ $browser.get(sso_url).then(function () {
     el.click();
     $browser.sleep(2000);
 })
-.then(switchToWebAuthoringTab)
-.then(waitForLoadingGlassPaneToGoAway)
+.then(function () { switchToWebAuthoringTab(); })
+.then(function () { waitForLoadingGlassPaneToGoAway(); })
 .then(function () {
     log(scriptStep++, "Wait for the 'Connect to Data' dialog");
     $browser.wait(
@@ -225,7 +225,7 @@ $browser.get(sso_url).then(function () {
             $browser.switchTo().frame(iframeElement);
         });
 })
-.then(waitForLoadingGlassPaneToGoAway)
+.then(function () { waitForLoadingGlassPaneToGoAway(); })
 .then(function() {
     log(scriptStep++, "Clicking on 'Edit' to edit the workbook");
     return $browser.waitForAndFindElement(By.css(".tabToolbarButton.edit"), DefaultTimeout);
@@ -233,8 +233,8 @@ $browser.get(sso_url).then(function () {
 .then(function (el) { 
     el.click();
 })
-.then(switchToWebAuthoringTab)
-.then(waitForLoadingGlassPaneToGoAway)
+.then(function () { switchToWebAuthoringTab(); })
+.then(function () { waitForLoadingGlassPaneToGoAway(); })
 .then(function () {
     log(scriptStep++, "Verifying authoring the workbook");
     return $browser.findElement(By.className("tabAuthMenuBarWorkbook"))
