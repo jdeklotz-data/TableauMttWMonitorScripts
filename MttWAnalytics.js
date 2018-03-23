@@ -39,7 +39,7 @@ var switchToWebAuthoringTab = function() {
 };
 
 var waitForLoadingGlassPaneToGoAway = function () {
-    return waitforElementToNotBeVisible("div.wgGlassPane");
+    return waitforElementToNotBeVisible(By.css("div.wgGlassPane"));
 };
 
 $browser.get(sso_url).then(function () {
