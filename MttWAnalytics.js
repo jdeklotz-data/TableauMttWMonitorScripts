@@ -267,6 +267,10 @@ $browser.get(sso_url).then(function () {
     closeMenuItem.click();
 })
 .then(function () {
+    log(scriptStep++, "Waiting for VizPortal page to load");
+    return $browser.waitForAndFindElement(By.xpath("//a[@data-tb-test-id=\'top-bar-logo-link\']"), DefaultTimeout);
+})
+.then(function () {
     log(scriptStep++, "Navigating to the default project workbooks page");
     $browser.get(defaultproject_url).then(function () {
         return $browser.wait(until.elementLocated(By.linkText("Analyze Superstore")), DefaultTimeout, "Could not locate Analyze Superstore on default projects page");
