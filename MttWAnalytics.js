@@ -211,6 +211,7 @@ $browser.get(sso_url).then(function () {
 })
 .then(function (el) {
     el.click();
+    $browser.sleep(2000);
 })
 .then(function() {
     log(scriptStep++, "Clicking on 'Edit' to edit the workbook");
