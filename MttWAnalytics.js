@@ -7,6 +7,23 @@ var sendKeysX = function (e, str) {
     $browser.sleep(100);
 };
 
+var waitforElementToNotBeVisible = function (css) {
+    return driver.wait(function () {
+        return driver.findElements(css)
+            .then(function (els) {
+                if (els.length === 0) {
+                    return true; // element is not present in page
+                }
+                else {
+                    return els[0].isDisplayed()
+                        .then(function (visible) {
+                            return !visible;
+                        });
+                }
+            })
+    });
+}
+
 var switchToWebAuthoringTab = function() {
     $browser.getAllWindowHandles().then(function (windowHandlers) {
         if (windowHandlers.length == 1) {
@@ -30,13 +47,7 @@ var switchToWebAuthoringTab = function() {
 };
 
 var waitForLoadingGlassPaneToGoAway = function () {
-    return $browser.findElement(By.id("loadingGlassPane"))
-        .then(function (el) {
-            $browser.wait(
-                until.elementIsNotVisible(el),
-                DefaultTimeout,
-                "Glasspane still visible");
-        });
+    return waitforElementToNotBeVisible("div.wgGlassPane");
 };
 
 $browser.get(sso_url).then(function () {
