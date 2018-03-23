@@ -13,10 +13,11 @@ var waitforElementToNotBeVisible = function (selector) {
             .then(function (elements) {
                 return elements.length === 0 || elements[0].isDisplayed().then(function (visible) { return !visible; });
             })
-    });
+    }, DefaultTimeout);
 }
 
 var switchToWebAuthoringTab = function() {
+    log(scriptStep++, "Switching to web authoring tab");
     $browser.getAllWindowHandles().then(function (windowHandlers) {
         if (windowHandlers.length == 1) {
             var waitStart = Date.now();
