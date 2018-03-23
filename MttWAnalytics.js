@@ -214,7 +214,12 @@ $browser.get(sso_url).then(function () {
 })
 .then(function (el) {
     el.click();
-    $browser.sleep(2000);
+})
+.then(function () {
+    return $browser.waitForAndFindElement(By.css("div.tb-vizviewer div.tb-viz.ng-isolate-scope > iframe"), DefaultTimeout)
+        .then(function (iframeElement) {
+            $browser.switchTo().frame(iframeElement);
+        });
 })
 .then(function() {
     log(scriptStep++, "Clicking on 'Edit' to edit the workbook");
