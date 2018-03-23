@@ -7,19 +7,11 @@ var sendKeysX = function (e, str) {
     $browser.sleep(100);
 };
 
-var waitforElementToNotBeVisible = function (css) {
-    return driver.wait(function () {
-        return driver.findElements(css)
-            .then(function (els) {
-                if (els.length === 0) {
-                    return true; // element is not present in page
-                }
-                else {
-                    return els[0].isDisplayed()
-                        .then(function (visible) {
-                            return !visible;
-                        });
-                }
+var waitforElementToNotBeVisible = function (selector) {
+    return $browser.wait(function () {
+        return $browser.findElements(selector)
+            .then(function (elements) {
+                return elements.length === 0 || elements[0].isDisplayed().then(function (visible) { return !visible; });
             })
     });
 }
