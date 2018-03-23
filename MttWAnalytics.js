@@ -39,6 +39,7 @@ var switchToWebAuthoringTab = function() {
 };
 
 var waitForLoadingGlassPaneToGoAway = function () {
+    log(scriptStep++, "Waiting for the glass pane to go away");
     return waitforElementToNotBeVisible(By.css("div.wgGlassPane"));
 };
 
