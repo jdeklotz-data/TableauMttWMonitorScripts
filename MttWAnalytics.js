@@ -206,15 +206,15 @@ $browser.get(sso_url).then(function () {
     el.click(); 
 })
 .then(function() {
-    log(scriptStep++, "Clicking on more actions to get to Delete menu");
-    return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']/span[2]/span/span"), DefaultTimeout);
+    log(scriptStep++, "Clicking on actions menu on the sheet row to get to 'Edit View'");
+    return $browser.waitForAndFindElement(By.xpath("//div[@data-tb-test-id=\'name-col-cell\']/div/div[@data-tb-test-id=\'actions-menu\']/span/span/span"), DefaultTimeout);
 })
 .then(function (el) {
     el.click();
 })
 .then(function() {
-    log(scriptStep++, "Clicking on 'Edit Workbook' to edit the workbook");
-    return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-place-name-line\']//div[.=\'Edit Workbook\']"), DefaultTimeout);
+    log(scriptStep++, "Clicking on 'Edit View' to edit the workbook");
+    return $browser.waitForAndFindElement(By.xpath("//div[@data-tb-test-id=\'action-menu-panel\']//div[.=\'Edit View\']"), DefaultTimeout);
 })
 .then(function (el) { 
     el.click();
