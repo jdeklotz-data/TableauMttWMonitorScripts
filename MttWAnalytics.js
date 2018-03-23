@@ -206,6 +206,9 @@ $browser.get(sso_url).then(function () {
     el.click(); 
 })
 .then(function() {
+    return $browser.waitForAndFindElement(By.xpath("//div[@title=\'" + NEW_WORKBOOK_NAME + "\']"), DefaultTimeout);
+})
+.then(function(el) {
     log(scriptStep++, "Clicking on the sheet to bring up the view");
     return $browser.waitForAndFindElement(By.xpath("//div[@class=\'tb-react-dg-bsection\']/div[@class=\'tb-react-dg-brow\']/div[@data-tb-test-id=\'name-col-cell\']/div/div/span/a"), DefaultTimeout);
 })
